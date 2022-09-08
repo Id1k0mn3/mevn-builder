@@ -1,7 +1,7 @@
-const Doctor = requires('./Doctor');
-const Description = requires('./Description');
-const MenuItem = requires('./MenuItem');
-const Slide = requires('./Slide');
+const Doctor = require('./Doctor');
+const Description = require('./Description');
+const MenuItem = require('./MenuItem');
+const Slide = require('./Slide');
 
 module.exports = {
   Doctor,

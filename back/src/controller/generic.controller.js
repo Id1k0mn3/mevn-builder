@@ -1,45 +1,47 @@
 const boom = require('boom')
 
 const genericCrud = (model) => ({
-  async get({ params: { id } }) {
+  async get({ params: { id } }, res) {
     try {
       const item = await model.findById(id)
-      return item
+      return res.status(200).send(item)
     } catch(error) {
-      throw boom.boomify(error);
+      return res.status(400)
     }
   },
-  async getAll() {
+  async getAll(req, res) {
     try {
-      const item = await model.find()
-      return item
+      const items = await model.find()
+      return res.status(200).send(items)
     } catch(error) {
-      throw boom.boomify(error);
+      return res.status(400)
     }
   },
-  async create({ body }) {
+  async create({ body }, res) {
     try {
       const item = new model(body)
       const newItem = await item.save()
-      return newItem
+      return res.status(200).send(newItem)
     } catch(error) {
-      throw boom.boomify(error);
+      return res.status(400)
     }
   },
-  async update({ params: { id }, body }) {
+  async update({ params: { id }, body }, res) {
     try {
       const item = await model.findByIdAndUpdate(id, body, { new: true })
-      return item
+      return res.status(200).send(item)
     } catch(error) {
-      throw boom.boomify(error);
+      return res.status(400)
     }
   },
-  async delete({ params: { id } }) {
+  async delete({ params: { id } }, res) {
     try {
       await model.findByIdAndDelete(id)
-      return { status: 'ok', message: 'item is removed' }
+      return res.status(200).send({ status: 'ok', message: 'item is removed' })
     } catch(error) {
-      throw boom.boomify(error);
+      return res.status(400)
     }
   },
 })
+
+module.exports = genericCrud
